@@ -40,10 +40,24 @@ public class OperatingSystem {
                 String[] line = s.nextLine().split(" ");
                 String command = line[0];
                 String value = line[1];
-                System.out.println("command: "+command+", value: "+value);
+                switch (command) {
+                    case "new" -> newProcess();
+                    case "switch" -> {
+                        int index = Integer.parseInt(value);
+                        switchProcess(index);
+                    }
+                    case "access" -> {
+                        int index = Integer.parseInt(value) >> 10;
+                        accessTableEntry(index);
+                    }
+                    default -> System.out.println("Command not found: " + command);
+                }
             }
             s.close();
-
+            System.out.println("Access: "+ access);
+            System.out.println("Hits: "+ hit);
+            System.out.println("Misses: "+ miss);
+            System.out.println("Compulsory Misses: "+ compulsoryMiss);
         }
         catch (FileNotFoundException e){
             System.out.println("Cannot find file!");
@@ -70,7 +84,7 @@ public class OperatingSystem {
      * Access specific entry in a page table
      * @param entryIndex index of entry to access
      */
-    private void accessProcess(int entryIndex){
+    private void accessTableEntry(int entryIndex){
         PageTable t = processTable.get(currentProcessIndex);
         PageTableEntry e = t.getTableEntry(entryIndex);
         if (e != null ){
