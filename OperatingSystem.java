@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class OperatingSystem {
 
     ArrayList<PageTable> processTable;
+    Memory memory;
 
     private int currentProcessIndex;
     private int access, miss, compulsoryMiss, hit;
@@ -24,10 +25,11 @@ public class OperatingSystem {
         compulsoryMiss = 0;
         hit = 0;
         processTable = new ArrayList<>();
+        memory = new Memory(MAX_MEMORY_FRAMES);
     }
 
     /**
-     * Kickstarts the OS and performs commands from an input file.
+     * Kick-starts the OS and performs commands from an input file.
      */
     protected void start(){
         System.out.print("Enter text file: ");
@@ -92,11 +94,24 @@ public class OperatingSystem {
                 hit++;
             }else{
                 miss++;
+                updateEntry(t ,entryIndex);
             }
         }else{
             miss++;
             compulsoryMiss++;
+            updateEntry(t, entryIndex);
         }
         access++;
+    }
+
+    /**
+     * Call getFreeFrame method in Memory class and update it with a new PageTableEntry object
+     * @param table PageTable object whose table entry needs updating
+     * @param entryIndex index of the page table entry to update
+     */
+    private void updateEntry(PageTable table, int entryIndex){
+        PageTableEntry newEntry = new PageTableEntry();
+        memory.getFreeFrame(newEntry);
+        table.updateTableEntry(entryIndex, newEntry);
     }
 }
