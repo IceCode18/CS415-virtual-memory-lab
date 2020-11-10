@@ -44,9 +44,22 @@ public class OperatingSystem {
         }
     }
 
+    /**
+        Creates a page table along with a new process
+     */
     private void newProcess(){
         PageTable t = new PageTable(MAX_ENTRIES);
         processTable.add(t);
+    }
+
+
+
+    /**
+     * Switch active process
+     * @param index - index of process to switch to
+     */
+    private void switchProcess(int index){
+        currentProcessIndex = index-1;
     }
 
 
