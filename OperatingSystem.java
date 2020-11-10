@@ -23,6 +23,9 @@ public class OperatingSystem {
         processTable = new ArrayList<>();
     }
 
+    /**
+     * Kickstarts the OS and performs commands from an input file.
+     */
     protected void start(){
         System.out.print("Enter text file: ");
         Scanner s = new Scanner(System.in);
@@ -45,7 +48,7 @@ public class OperatingSystem {
     }
 
     /**
-        Creates a page table along with a new process
+     * Creates a page table along with a new process
      */
     private void newProcess(){
         PageTable t = new PageTable(MAX_ENTRIES);
