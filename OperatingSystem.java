@@ -14,6 +14,9 @@ public class OperatingSystem {
     private final int MAX_ENTRIES = 64;
     private final int MAX_MEMORY_FRAMES = 30;
 
+    /**
+     * OS class constructor
+     */
     public OperatingSystem(){
         currentProcessIndex = -1;
         access = 0;
@@ -55,8 +58,6 @@ public class OperatingSystem {
         processTable.add(t);
     }
 
-
-
     /**
      * Switch active process
      * @param index - index of process to switch to
@@ -65,5 +66,23 @@ public class OperatingSystem {
         currentProcessIndex = index-1;
     }
 
-
+    /**
+     * Access specific entry in a page table
+     * @param entryIndex index of entry to access
+     */
+    private void accessProcess(int entryIndex){
+        PageTable t = processTable.get(currentProcessIndex);
+        PageTableEntry e = t.getTableEntry(entryIndex);
+        if (e != null ){
+            if(e.isInMemory()) {
+                hit++;
+            }else{
+                miss++;
+            }
+        }else{
+            miss++;
+            compulsoryMiss++;
+        }
+        access++;
+    }
 }
